@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,6 +16,7 @@ public class RubiksCube : MonoBehaviour
     [HideInInspector]
     public bool turning = false;
 
+    // Saves me a switch statement
     public Dictionary<Rotation, Vector3> rotationsToVectors = new Dictionary<Rotation, Vector3>
     {
         { Rotation.U, Vector3.up},
@@ -33,11 +33,11 @@ public class RubiksCube : MonoBehaviour
         { Rotation.Bi, Vector3.back},
     };
 
-
     void Awake()
     {
         InitCubies();
     }
+
     public void InitCubies()
     {
         foreach (Transform cubie in GetComponentInChildren<Transform>())
@@ -47,11 +47,6 @@ public class RubiksCube : MonoBehaviour
                 allCubies.Add(cubie);
             }
         }
-    }
-
-    public void Turn(string rotation)
-    {
-        Turn((Rotation)Enum.Parse(typeof(Rotation), rotation));
     }
 
     public void Turn(Rotation rotation)
@@ -111,6 +106,7 @@ public class RubiksCube : MonoBehaviour
         turning = false;
     }
 
+    // Convoluted method that uses the predictable positions of individual cubies relative to a center cubie that becomes their temporary parent
     List<Transform> GetCubiesOfFace(Vector3 normal)
     {
         if (normal.magnitude != 1)
