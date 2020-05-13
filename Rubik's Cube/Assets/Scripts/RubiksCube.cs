@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum Rotation
 {
@@ -15,6 +16,8 @@ public class RubiksCube : MonoBehaviour
 
     [HideInInspector]
     public bool turning = false;
+
+    private float speed = 1;
 
     // Saves me a switch statement
     public Dictionary<Rotation, Vector3> rotationsToVectors = new Dictionary<Rotation, Vector3>
@@ -36,6 +39,11 @@ public class RubiksCube : MonoBehaviour
     void Awake()
     {
         InitCubies();
+    }
+
+    public void SetSpeed(Slider slider)
+    {
+        speed = slider.value;
     }
 
     public void InitCubies()
@@ -88,7 +96,7 @@ public class RubiksCube : MonoBehaviour
         while (t < 1)
         {
             faceCenter.rotation = Quaternion.Lerp(startingRotation, targetRotation, t);
-            t += Time.deltaTime;
+            t += Time.deltaTime * speed;
             yield return null;
         }
         faceCenter.rotation = targetRotation;
